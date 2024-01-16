@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./index.css";
 
 const initialFriends = [
@@ -21,12 +22,30 @@ const initialFriends = [
   },
 ];
 
-export default function App() {
+function Button({ children, onClick }) {
   return (
-    <div className="App">
+    <button onClick={onClick} className="button">
+      {children}
+    </button>
+  );
+}
+
+export default function App() {
+  const [showAddFriend, setShowAddFriend] = useState(false);
+
+  function handleShowAddFriend() {
+    setShowAddFriend((show) => !show);
+  }
+  return (
+    <div className="app">
       <div className="sidebar">
         <FriendsList />
+        {showAddFriend && <FormAddFriend />}
+        <Button onClick={handleShowAddFriend}>
+          {!showAddFriend ? "Add Friend" : "Close"}
+        </Button>
       </div>
+      <FormSplitBill />
     </div>
   );
 }
@@ -37,18 +56,14 @@ function FriendsList() {
     <>
       <ul>
         {friends.map((friend, id) => (
-          <Friend
-            friend={friend}
-            key={friend.id}
-            button={<button className="button">Select</button>}
-          />
+          <Friend friend={friend} key={friend.id} />
         ))}
       </ul>
     </>
   );
 }
 
-function Friend({ friend, button }) {
+function Friend({ friend }) {
   return (
     <div>
       <li>
@@ -67,8 +82,46 @@ function Friend({ friend, button }) {
         )}
 
         {friend.balance === 0 && <p>You and {friend.name} are even</p>}
-        <div>{button}</div>
+        <Button>Select</Button>
       </li>
     </div>
+  );
+}
+
+function FormAddFriend() {
+  return (
+    <form className="form-add-friend">
+      <label>👫Friend name</label>
+      <input type="text" />
+
+      <label>👫Image URL</label>
+      <input type="text" />
+
+      <Button>Add</Button>
+    </form>
+  );
+}
+
+function FormSplitBill() {
+  return (
+    <form className="form-split-bill">
+      <h2>Split a bill with X</h2>
+
+      <label>💴Bill value</label>
+      <input type="text" />
+
+      <label>🧟Your expense</label>
+      <input type="text" />
+
+      <label>👫X's expense</label>
+      <input type="text" disabled />
+
+      <label>💴Who is paying the bill?</label>
+      <select>
+        <option value="friends">X</option>
+      </select>
+
+      <Button>Add</Button>
+    </form>
   );
 }
