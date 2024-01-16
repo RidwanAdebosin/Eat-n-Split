@@ -1,3 +1,5 @@
+import "./index.css";
+
 const initialFriends = [
   {
     id: 118836,
@@ -19,10 +21,54 @@ const initialFriends = [
   },
 ];
 
-import "./index.css";
-
-function App() {
-  return <div className="App"></div>;
+export default function App() {
+  return (
+    <div className="App">
+      <div className="sidebar">
+        <FriendsList />
+      </div>
+    </div>
+  );
 }
 
-export default App;
+function FriendsList() {
+  const friends = initialFriends;
+  return (
+    <>
+      <ul>
+        {friends.map((friend, id) => (
+          <Friend
+            friend={friend}
+            key={friend.id}
+            button={<button className="button">Select</button>}
+          />
+        ))}
+      </ul>
+    </>
+  );
+}
+
+function Friend({ friend, button }) {
+  return (
+    <div>
+      <li>
+        <img src={friend.image} alt={friend.image} />
+        <h3>{friend.name}</h3>
+        {friend.balance < 0 && (
+          <p className="red">
+            You owe {friend.name} {Math.abs(friend.balance)}€
+          </p>
+        )}
+
+        {friend.balance > 0 && (
+          <p className="green">
+            {friend.name} owes you {Math.abs(friend.balance)}€
+          </p>
+        )}
+
+        {friend.balance === 0 && <p>You and {friend.name} are even</p>}
+        <div>{button}</div>
+      </li>
+    </div>
+  );
+}
