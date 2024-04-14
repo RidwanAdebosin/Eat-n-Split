@@ -167,3 +167,11 @@ form h2 {
   letter-spacing: -0.5px;
   margin-bottom: 1.6rem;
 }
+
+@media (max-width: 767px) {
+  .app {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+  }
+}
