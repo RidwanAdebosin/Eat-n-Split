@@ -24,14 +24,20 @@ const initialFriends = [
 ];
 
 export default function App() {
+  const [showAddFriend, setShowAddFriend] = useState(false);
+
+  const handleDisplayForm = () => {
+    setShowAddFriend(!showAddFriend);
+  };
+
   return (
     <main className="app">
       <div className="sidebar">
         <FriendsList />
         <FormAddFriend />
-        <Button>Add Friend</Button>
-        <FormSplitBill />
+        <Button onClick={handleDisplayForm}>Add Friend</Button>
       </div>
+      <FormSplitBill />
     </main>
   );
 }
@@ -89,11 +95,21 @@ const FormSplitBill = () => {
   return (
     <form className="form-split-bill">
       <h2>Split a bill with X</h2>
-      <label>🙌 Bill value</label>
+      <label>🐱‍💻 Bill value</label>
       <input type="text" />
 
-      <label>Split bill</label>
+      <label>Your expense</label>
       <input type="text" />
+
+      <label>X's expense</label>
+      <input type="text" disabled />
+
+      <label>Who is paying the bill?</label>
+      <select>
+        <option value="user">You</option>
+        <option value="friend">X</option>
+        <option>X</option>
+      </select>
 
       <Button>Split bill</Button>
     </form>
